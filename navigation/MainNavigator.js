@@ -77,7 +77,7 @@ export default function MainNavigator() {
           }}
         />
       </Stack.Group>
-      <Stack.Group screenOptions={{ presentation: "containedModal" }}>
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="NewChat" component={NewChatScreen} />
       </Stack.Group>
     </Stack.Navigator>
