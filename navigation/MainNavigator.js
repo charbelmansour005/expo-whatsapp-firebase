@@ -8,8 +8,11 @@ import SettingsScreen from "../screens/SettingsScreen"
 import ChatScreen from "../screens/ChatScreen"
 import { View } from "react-native"
 import { isIOS } from "../helpers/helpers"
+import NewChatScreen from "../screens/NewChatScreen"
 
+// stack nav
 const Stack = createNativeStackNavigator()
+// tab nav
 const Tab = createBottomTabNavigator()
 
 const TabNavigator = () => {
@@ -50,31 +53,33 @@ const TabNavigator = () => {
 
 export default function MainNavigator() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        header: () => <View style={{ height: isIOS ? 0 : 40 }}></View>,
-      }}
-    >
-      <Stack.Screen
-        name="Home"
-        component={TabNavigator}
-        options={{
-          headerShown: true,
-        }}
-      />
-      <Stack.Screen
-        name="ChatScreen"
-        component={ChatScreen}
-        options={{ headerTitle: "", headerBackTitle: "Go Back" }}
-      />
-      <Stack.Screen
-        name="SettingsScreen"
-        component={SettingsScreen}
-        options={{
-          headerTitle: "Settings",
-          headerBackTitle: "Go Back",
-        }}
-      />
+    <Stack.Navigator>
+      <Stack.Group>
+        <Stack.Screen
+          name="Home"
+          component={TabNavigator}
+          options={{
+            headerShown: true,
+            header: () => <View style={{ height: isIOS ? 0 : 40 }}></View>,
+          }}
+        />
+        <Stack.Screen
+          name="ChatScreen"
+          component={ChatScreen}
+          options={{ headerTitle: "", headerBackTitle: "Go Back" }}
+        />
+        <Stack.Screen
+          name="SettingsScreen"
+          component={SettingsScreen}
+          options={{
+            headerTitle: "Settings",
+            headerBackTitle: "Go Back",
+          }}
+        />
+      </Stack.Group>
+      <Stack.Group screenOptions={{ presentation: "containedModal" }}>
+        <Stack.Screen name="NewChat" component={NewChatScreen} />
+      </Stack.Group>
     </Stack.Navigator>
   )
 }

@@ -11,7 +11,11 @@ const ChatListScreen = (props) => {
       headerRight: () => {
         return (
           <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-            <Item title="New chat" iconName="add-circle" onPress={() => {}} />
+            <Item
+              title="New chat"
+              iconName="add-circle"
+              onPress={() => props.navigation.navigate("NewChat")}
+            />
           </HeaderButtons>
         )
       },
