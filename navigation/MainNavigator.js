@@ -77,7 +77,7 @@ export default function MainNavigator() {
           }}
         />
       </Stack.Group>
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
+      <Stack.Group screenOptions={{ presentation: "fullScreenModal" }}>
         <Stack.Screen name="NewChat" component={NewChatScreen} />
       </Stack.Group>
     </Stack.Navigator>

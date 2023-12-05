@@ -5,6 +5,9 @@ import {
   Button,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
+  FlatList,
+  KeyboardAvoidingView,
 } from "react-native"
 import React, { useEffect, useLayoutEffect, useState } from "react"
 import SafeAreaiOS from "../tools/SafeAreaiOS"
@@ -15,6 +18,7 @@ import PageContainer from "../tools/PageContainer"
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons"
 import commonStyles from "../constants/commonStyles"
 import { searchUsers } from "../utils/actions/userActions"
+import { isIOS } from "../helpers/helpers"
 
 const NewChatScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -45,57 +49,102 @@ const NewChatScreen = (props) => {
 
       setIsLoading(true)
 
-      // setUsers({})
-      // setNoResultsFound(true)
       const userResult = await searchUsers(searchTerm)
-      console.log(userResult)
+      setUsers(userResult)
+
+      if (Object.keys(userResult).length === 0) {
+        setNoResultsFound(true)
+      } else {
+        setNoResultsFound(false)
+      }
       setIsLoading(false)
     }, 500)
 
     return () => clearTimeout(delaySearch)
   }, [searchTerm])
-
   return (
     <PageContainer>
-      <View style={styles.searchContainer}>
-        <FontAwesome name="search" size={15} color={Colors.lightGray} />
-        <TextInput
-          placeholder="Search"
-          style={styles.searchBox}
-          onChangeText={(text) => setSearchTerm(text)}
-        />
-      </View>
-
-      {!isLoading && noResultsFound && (
-        <View style={commonStyles.center}>
-          <FontAwesome5
-            name="question"
-            size={55}
-            color={Colors.lightGray}
-            style={styles.noResultsIcon}
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={100} // pushed the view above the keyboard more
+        style={styles.keyboardAvoidingView}
+        behavior={isIOS ? "height" : undefined} // fixes hidden inputs for iOS
+      >
+        <View style={styles.searchContainer}>
+          <FontAwesome name="search" size={15} color={Colors.lightGray} />
+          <TextInput
+            placeholder="Search"
+            style={styles.searchBox}
+            onChangeText={(text) => setSearchTerm(text)}
           />
-          <Text style={styles.noResultsText}>No users found!</Text>
         </View>
-      )}
 
-      {!isLoading && !users && (
-        <View style={commonStyles.center}>
-          <FontAwesome
-            name="users"
-            size={55}
-            color={Colors.lightGray}
-            style={styles.noResultsIcon}
+        {isLoading && (
+          <View style={commonStyles.center}>
+            <ActivityIndicator size={"large "} color={Colors.primary} />
+          </View>
+        )}
+
+        {!isLoading && !noResultsFound && users && (
+          <FlatList
+            data={Object.keys(users)}
+            renderItem={(itemData) => {
+              const userId = itemData.item
+              // use the array of IDs '('Object.keys(users)' to match IDs of objects 'users'
+              const userData = users[userId]
+              return <Text>{userData.firstLast}</Text>
+            }}
           />
-          <Text style={styles.noResultsText}>
-            Enter a name to search for a user!
-          </Text>
-        </View>
-      )}
+        )}
+
+        {!isLoading && noResultsFound && (
+          <View style={commonStyles.center}>
+            <FontAwesome5
+              name="question"
+              size={55}
+              color={Colors.lightGray}
+              style={styles.noResultsIcon}
+            />
+            <Text style={styles.noResultsText}>No users found!</Text>
+          </View>
+        )}
+
+        {!isLoading && !users && (
+          <View style={commonStyles.center}>
+            <View style={styles.border}>
+              <View style={styles.alertContainer}>
+                <FontAwesome
+                  name="users"
+                  size={55}
+                  color={Colors.blue}
+                  style={styles.noResultsIcon}
+                />
+                <Text style={styles.noResultsText}>
+                  Enter a name to search for a user!
+                </Text>
+              </View>
+            </View>
+          </View>
+        )}
+      </KeyboardAvoidingView>
     </PageContainer>
   )
 }
 
 const styles = StyleSheet.create({
+  alertContainer: {
+    backgroundColor: Colors.extraLightGray,
+    alignItems: "center",
+    display: "flex",
+    padding: 20,
+    borderRadius: 10,
+  },
+  border: {
+    borderWidth: 2,
+    borderColor: Colors.blue,
+    padding: 2,
+    borderRadius: 10,
+    borderStyle: "dashed",
+  },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -116,6 +165,10 @@ const styles = StyleSheet.create({
     color: Colors.textColor,
     fontFamily: "regular",
     letterSpacing: 0.3,
+  },
+  keyboardAvoidingView: {
+    flex: 1,
+    justifyContent: "center",
   },
 })
 
