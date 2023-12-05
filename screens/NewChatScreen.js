@@ -2,15 +2,12 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
-  TouchableOpacity,
   TextInput,
   ActivityIndicator,
   FlatList,
   KeyboardAvoidingView,
 } from "react-native"
 import React, { useEffect, useLayoutEffect, useState } from "react"
-import SafeAreaiOS from "../tools/SafeAreaiOS"
 import { HeaderButtons, Item } from "react-navigation-header-buttons"
 import CustomHeaderButton from "../components/CustomHeaderButton"
 import Colors from "../constants/Colors"
@@ -93,7 +90,6 @@ const NewChatScreen = (props) => {
               // use the array of IDs '('Object.keys(users)' to match IDs of objects 'users'
               const userData = users[userId]
               return <DataItem />
-              // return <Text>{userData.firstLast}</Text>
             }}
           />
         )}
@@ -143,7 +139,7 @@ const styles = StyleSheet.create({
   border: {
     borderWidth: 2,
     borderColor: Colors.blue,
-    padding: 2,
+    padding: 10,
     borderRadius: 10,
     borderStyle: "dashed",
   },
