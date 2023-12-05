@@ -28,13 +28,13 @@ export default function StartUpScreen() {
       // if the expiry date of the token is in the past
       // or if we dont have the token or the userId
       if (expiryDate <= new Date() || !token || !userId) {
-        // we mark that we have tried to login
+        //  mark that we have tried to login
         return dispatch(setDidTryAutoLogin(true))
       }
 
+      // getUserData needs an await because its async (duh)
       const userData = await getUserData(userId)
-      // getUserData needs an await because it is an async function
-      console.log(userData)
+      console.log({ userData: userData })
       dispatch(authenticate({ token: token, userData }))
     }
 

@@ -25,7 +25,6 @@ import ProfileImage from "../components/ProfileImage"
 export default function SettingsScreen() {
   const dispatch = useDispatch()
   const userData = useSelector((state) => state.auth.userData)
-  console.log(userData)
 
   const [settingsFormState, setSettingsFormState] = useState({
     email: "",

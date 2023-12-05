@@ -9,7 +9,6 @@ export default function SubmitButton({
   title,
   onPress = () => {},
   customStyle = {},
-  isSignUp,
 }) {
   const enabledBgColor = color
   const disabledBgColor = Colors.lightGray
@@ -17,9 +16,6 @@ export default function SubmitButton({
   return (
     <TouchableOpacity disabled={disabled} onPress={onPress}>
       <LinearGradient
-        // start={{ x: isSignUp ? 1 : 0, y: 0 }}
-        // end={{ x: isSignUp ? 0 : 1, y: 0 }}
-        // colors={[color, color, Colors.white]}
         colors={[color, color]}
         style={{
           ...styles.button,

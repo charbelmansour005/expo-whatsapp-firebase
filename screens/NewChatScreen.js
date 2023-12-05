@@ -14,6 +14,7 @@ import Colors from "../constants/Colors"
 import PageContainer from "../tools/PageContainer"
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons"
 import commonStyles from "../constants/commonStyles"
+import { searchUsers } from "../utils/actions/userActions"
 
 const NewChatScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -35,8 +36,7 @@ const NewChatScreen = (props) => {
   }, [])
 
   useEffect(() => {
-    const delaySearch = setTimeout(() => {
-      console.log("abc")
+    const delaySearch = setTimeout(async () => {
       if (!searchTerm || searchTerm === "") {
         setUsers()
         setNoResultsFound(false)
@@ -45,9 +45,10 @@ const NewChatScreen = (props) => {
 
       setIsLoading(true)
 
-      setUsers({})
-      setNoResultsFound(true)
-
+      // setUsers({})
+      // setNoResultsFound(true)
+      const userResult = await searchUsers(searchTerm)
+      console.log(userResult)
       setIsLoading(false)
     }, 500)
 
