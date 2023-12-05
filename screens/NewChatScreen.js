@@ -19,6 +19,7 @@ import { FontAwesome, FontAwesome5 } from "@expo/vector-icons"
 import commonStyles from "../constants/commonStyles"
 import { searchUsers } from "../utils/actions/userActions"
 import { isIOS } from "../helpers/helpers"
+import DataItem from "../components/DataItem"
 
 const NewChatScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -91,7 +92,8 @@ const NewChatScreen = (props) => {
               const userId = itemData.item
               // use the array of IDs '('Object.keys(users)' to match IDs of objects 'users'
               const userData = users[userId]
-              return <Text>{userData.firstLast}</Text>
+              return <DataItem />
+              // return <Text>{userData.firstLast}</Text>
             }}
           />
         )}
